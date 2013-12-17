@@ -21,3 +21,4 @@ public:
 };
 
 #endif /* HELPERFUNCTIONS_H_ */
+//

@@ -4,7 +4,7 @@
  *  Created on: 1 Dec 2013
  *      Author: kuba
  */
-
+//
 #include <iostream>
 #include "Cell.h"
 #include "Person.h"
