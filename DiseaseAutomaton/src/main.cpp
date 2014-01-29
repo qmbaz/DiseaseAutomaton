@@ -12,118 +12,49 @@
 
 using std::cout;
 
-#define GRID_ROWS 4
-#define GRID_COLS 4
+
 
 
 int main() {
-	int rows = 10;
-	int cols = 10;
-	int size = rows*cols;
 
-	HelperFunctions h;
+
+	//HelperFunctions h;
 
 	//cout << "one two three";
-	Cell TheGrid[size];
+	int rows = 20;
+	int cols = 20;
+	int size = rows*cols;
+	Cell TheGrid[size]; // creating a grid in the form of array of size "size"
 	for (int i = 0; i < size; i++) {
 
-			Person citizen('s');
-			Cell oneCell;
-			oneCell.addPeople(citizen);
+			Person citizen('s'); // create a person with a state of "susceptible"
+			Cell oneCell; // create a cell
+			oneCell.addPeople(citizen); // add the previously created person to a cell
 			/*oneCell.addPeople(citizen);
 			 oneCell.addPeople(citizen);
 			 oneCell.addPeople(citizen);
 			 oneCell.addPeople(citizen);*/
-			TheGrid[i] = oneCell;
+			TheGrid[i] = oneCell; // add the cell to the TheGrid array in the position of "i"
 
 	}
 
-	TheGrid[1].people.at(0).healthState='i';
-	TheGrid[cols].people.at(0).healthState='i';
+	// modifying the healthstate of two people to get an initial state of the cellular automaton
 
-	//cout << TheGrid[1][0].getPerson(0).getHealthState();
-	h.printGrid(TheGrid,rows,cols);
-/*
-	for (int i = 1; i <= rows; i++) {
-		for (int j = 1; j <= cols; j++) {
-			int index = h.getIndex(i,j,cols);
-			Cell c = TheGrid[index];
-			int counter = c.getNumberOfPeopleInACell();
-			while (counter > 0) {
-				Person man;
-				man = c.getPerson(counter - 1);
-				char health = man.getHealthState();
-				cout << health;
-				counter--;
-			}
-			cout << " ";
-		}
-		cout << "\n";
-	}*/
+//	TheGrid[1].people.at(0).healthState='i';
+	//TheGrid[cols].people.at(0).healthState='i'; // cols is a number of columns, so as the position is counted from 0, this is the
+	// first position in the second row
+	for (int i=0;i<rows;i++){
+	TheGrid[i*(cols+1)].people.at(0).healthState='i';
+
+	}
+	HelperFunctions::printGrid(TheGrid,rows,cols);
 	cout << "\n";
+	for (int i = 0; i <20; i++){
+		HelperFunctions::computeGrid(TheGrid,rows,cols);
+		HelperFunctions::printGrid(TheGrid,rows,cols);
+		cout << "\n";
 
-	Cell TheGrid2[size];
-	for (int i = 0; i < rows; i++) {
-		for (int j = 0; j < cols; j++) {
-
-			int infectedCounter = 0;
-			//up
-			if (i > 0) {
-				if (TheGrid[h.getIndex(i - 1,j,cols)].getPerson(0).getHealthState() == 'i') {
-					infectedCounter++;
-				};
-			};
-			//right
-			if (j < GRID_COLS) {
-				if (TheGrid[h.getIndex(i,j + 1,cols)].getPerson(0).getHealthState() == 'i') {
-					infectedCounter++;
-				};
-			}
-			//down
-			if (i < GRID_ROWS) {
-				if (TheGrid[h.getIndex(i + 1,j,cols)].getPerson(0).getHealthState() == 'i') {
-					infectedCounter++;
-				};
-			};
-			//left
-			if (j > 0) {
-				if (TheGrid[h.getIndex(i,j - 1,cols)].getPerson(0).getHealthState() == 'i') {
-					infectedCounter++;
-				};
-			};
-			char personState;
-			char currentState = TheGrid[h.getIndex(i,j,cols)].people.at(0).healthState;
-			if (infectedCounter > 1) {
-				personState = 'i';
-			} else {
-				personState = currentState;
-			}
-
-			Person citizen(personState);
-			Cell oneCell;
-			oneCell.addPeople(citizen);
-
-			TheGrid2[h.getIndex(i,j,cols)] = oneCell;
-		}
 	}
-
-	/*for (int i = 0; i < GRID_ROWS; i++) {
-			for (int j = 0; j < GRID_COLS; j++) {
-				Cell c = TheGrid2[i][j];
-				int counter = c.getNumberOfPeopleInACell();
-				while (counter > 0) {
-					Person man;
-					man = c.getPerson(counter - 1);
-					char health = man.getHealthState();
-					cout << health;
-					counter--;
-				}
-				cout << " ";
-			}
-			cout << "\n";
-		}*/
-
-		h.printGrid(TheGrid2,rows,cols);
 
 	return 0;
 }

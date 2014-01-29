@@ -16,8 +16,10 @@ class HelperFunctions {
 public:
 	HelperFunctions();
 	virtual ~HelperFunctions();
-	void printGrid(Cell grid[],int, int  );
+	static void printGrid(Cell grid[],int, int  );
+	static void computeGrid (Cell* grid, int, int);
 	static int getIndex(int,int,int);
+
 };
 
 #endif /* HELPERFUNCTIONS_H_ */
