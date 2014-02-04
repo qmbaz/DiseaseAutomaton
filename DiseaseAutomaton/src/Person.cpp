@@ -31,4 +31,4 @@ char Person::getHealthState(){
 void Person::setHealthState(char state){
 	healthState = state;
 }
-//
+// add comment
