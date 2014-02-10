@@ -43,12 +43,23 @@ int main() {
 //	TheGrid[1].people.at(0).healthState='i';
 	//TheGrid[cols].people.at(0).healthState='i'; // cols is a number of columns, so as the position is counted from 0, this is the
 	// first position in the second row
-	for (int i=0;i<rows;i++){
+
+	/*for (int i=0;i<rows;i++){
 	TheGrid[i*(cols+1)].people.at(0).healthState='i';
 
 	}
 	HelperFunctions::printGrid(TheGrid,rows,cols);
 	cout << "\n";
+	for (int i = 0; i <20; i++){
+		HelperFunctions::computeGrid(TheGrid,rows,cols);
+		HelperFunctions::printGrid(TheGrid,rows,cols);
+		cout << "\n";
+
+	}
+	HelperFunctions::saveGridToFile(TheGrid,rows,cols);*/
+	HelperFunctions::loadGridFromFile(TheGrid,"one");
+	//HelperFunctions::printGrid(TheGrid,rows,cols);
+
 	for (int i = 0; i <20; i++){
 		HelperFunctions::computeGrid(TheGrid,rows,cols);
 		HelperFunctions::printGrid(TheGrid,rows,cols);
