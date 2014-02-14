@@ -24,25 +24,23 @@ int main() {
 	int rows = 20;
 	int cols = 20;
 	int size = rows*cols;
-	Cell TheGrid[size]; // creating a grid in the form of array of size "size"
-	for (int i = 0; i < size; i++) {
+	//Cell TheGrid[size]; // creating a grid in the form of array of size "size"
+	//for (int i = 0; i < size; i++) {
 
-			Person citizen('s'); // create a person with a state of "susceptible"
-			Cell oneCell; // create a cell
-			oneCell.addPeople(citizen); // add the previously created person to a cell
+		//	Person citizen('s'); // create a person with a state of "susceptible"
+		//	Cell oneCell; // create a cell
+		//	oneCell.addPeople(citizen); // add the previously created person to a cell
 			/*oneCell.addPeople(citizen);
 			 oneCell.addPeople(citizen);
 			 oneCell.addPeople(citizen);
 			 oneCell.addPeople(citizen);*/
-			TheGrid[i] = oneCell; // add the cell to the TheGrid array in the position of "i"
+		//	TheGrid[i] = oneCell; // add the cell to the TheGrid array in the position of "i"
 
-	}
+	//}
 
 	// modifying the healthstate of two people to get an initial state of the cellular automaton
 
-//	TheGrid[1].people.at(0).healthState='i';
-	//TheGrid[cols].people.at(0).healthState='i'; // cols is a number of columns, so as the position is counted from 0, this is the
-	// first position in the second row
+
 
 	/*for (int i=0;i<rows;i++){
 	TheGrid[i*(cols+1)].people.at(0).healthState='i';
@@ -57,13 +55,26 @@ int main() {
 
 	}
 	HelperFunctions::saveGridToFile(TheGrid,rows,cols);*/
-	HelperFunctions::loadGridFromFile(TheGrid,"one");
+	//HelperFunctions::loadGridFromFile(TheGrid,"one");
 	//HelperFunctions::printGrid(TheGrid,rows,cols);
 
+	Grid AGrid(size);
+
+		//	AGrid.grid.at(1).people.at(0).healthState='i';
+		//	AGrid.grid.at(cols).people.at(0).healthState='i'; // cols is a number of columns, so as the position is counted from 0, this is the
+		// 	first position in the second row
+
+	/*for (int i=0;i<rows;i++){
+		AGrid.grid.at(i*(cols+1)).people.at(0).healthState='i';
+
+		}*/
+	AGrid=HelperFunctions::loadGridFromFile("beginningState.aut");
+	//HelperFunctions::saveGridToFile(AGrid,rows,cols,"beginningState.aut");
+	HelperFunctions::printGrid(AGrid,rows,cols);
 	for (int i = 0; i <20; i++){
-		HelperFunctions::computeGrid(TheGrid,rows,cols);
-		HelperFunctions::printGrid(TheGrid,rows,cols);
-		cout << "\n";
+		AGrid=HelperFunctions::computeGrid(AGrid,rows,cols);
+		HelperFunctions::printGrid(AGrid,rows,cols);
+		//cout << "\n";
 
 	}
 

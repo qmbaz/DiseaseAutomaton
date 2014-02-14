@@ -6,6 +6,7 @@
 CPP_SRCS += \
 ../src/Cell.cpp \
 ../src/Cell_test.cpp \
+../src/Grid.cpp \
 ../src/HelperFunctions.cpp \
 ../src/HelperFunctions_test.cpp \
 ../src/Person.cpp \
@@ -15,6 +16,7 @@ CPP_SRCS += \
 OBJS += \
 ./src/Cell.o \
 ./src/Cell_test.o \
+./src/Grid.o \
 ./src/HelperFunctions.o \
 ./src/HelperFunctions_test.o \
 ./src/Person.o \
@@ -24,6 +26,7 @@ OBJS += \
 CPP_DEPS += \
 ./src/Cell.d \
 ./src/Cell_test.d \
+./src/Grid.d \
 ./src/HelperFunctions.d \
 ./src/HelperFunctions_test.d \
 ./src/Person.d \

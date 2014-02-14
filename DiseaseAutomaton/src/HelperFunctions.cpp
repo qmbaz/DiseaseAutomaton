@@ -16,12 +16,12 @@ HelperFunctions::~HelperFunctions() {
 	// TODO Auto-generated destructor stub
 }
 
-void HelperFunctions::printGrid(Cell grid[], int rows, int cols) {
+void HelperFunctions::printGrid(Grid grid, int rows, int cols) {
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < cols; j++) {
 			Cell c;
 			int index = HelperFunctions::getIndex(i, j, cols);
-			c = grid[index];
+			c = grid.grid.at(index);
 			int counter = c.getNumberOfPeopleInACell();
 			while (counter > 0) {
 				Person man;
@@ -34,13 +34,14 @@ void HelperFunctions::printGrid(Cell grid[], int rows, int cols) {
 		}
 		cout << "\n";
 	}
+	cout << "\n";
 }
 
-void HelperFunctions::computeGrid(Cell* grid, int rows, int cols) {
+Grid HelperFunctions::computeGrid(Grid grid, int rows, int cols) {
 
 	int size = rows * cols;
 
-	Cell gridTemp[size];
+	Grid gridTemp(size);
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < cols; j++) {
 
@@ -49,35 +50,35 @@ void HelperFunctions::computeGrid(Cell* grid, int rows, int cols) {
 			// this is what the first if statements are for
 			//up
 			if (i > 0) {				// if it's not the first row
-				if (grid[HelperFunctions::getIndex(i - 1, j, cols)].getPerson(0).getHealthState()
+				if (grid.grid.at(HelperFunctions::getIndex(i - 1, j, cols)).people.at(0).healthState
 						== 'i') {	// and if the cell just above is infected
 					infectedCounter++;				// increment the counter
 				};
 			};
-			//right
+			//right i, j + 1, cols)
 			if (j < cols - 1) {				// if it's not the last column
-				if (grid[HelperFunctions::getIndex(i, j + 1, cols)].getPerson(0).getHealthState()
+				if (grid.grid.at(HelperFunctions::getIndex(i, j+1, cols)).people.at(0).healthState
 						== 'i') {		// if the cell to the right is infected
 					infectedCounter++;
 				};
 			}
-			//down
+			//down i + 1, j, cols
 			if (i < rows - 1) {				// if it's not the last row
-				if (grid[HelperFunctions::getIndex(i + 1, j, cols)].getPerson(0).getHealthState()
+				if (grid.grid.at(HelperFunctions::getIndex(i + 1, j, cols)).people.at(0).healthState
 						== 'i') {		// if the cell just below is infected
 					infectedCounter++;
 				};
 			};
-			//left
+			//left  i, j - 1, cols
 			if (j > 0) { // if it's not the first column
-				if (grid[HelperFunctions::getIndex(i, j - 1, cols)].getPerson(0).getHealthState()
+				if (grid.grid.at(HelperFunctions::getIndex(i, j-1, cols)).people.at(0).healthState
 						== 'i') { // if the cell to the left is infected
 					infectedCounter++;
 				};
 			};
 			char personState;
 			char currentState =
-					grid[HelperFunctions::getIndex(i, j, cols)].people.at(0).healthState;
+					grid.grid.at(HelperFunctions::getIndex(i, j, cols)).people.at(0).healthState;
 			if (infectedCounter > 1) {
 				personState = 'i';
 			} else {
@@ -88,17 +89,17 @@ void HelperFunctions::computeGrid(Cell* grid, int rows, int cols) {
 			Cell oneCell;
 			oneCell.addPeople(citizen);
 
-			gridTemp[HelperFunctions::getIndex(i, j, cols)] = oneCell;
+			gridTemp.grid.at(HelperFunctions::getIndex(i, j, cols)) = oneCell;
 		}
 	}
-
-	for (int i = 0; i < size; i++) {
-		grid[i] = gridTemp[i];
-	}
+	return gridTemp;
+	/*for (int i = 0; i < size; i++) {
+		grid.grid.at(i) = gridTemp.grid.at(i);
+	}*/
 
 }
 
-void HelperFunctions::saveGridToFile(Cell* grid, int rows, int cols,
+void HelperFunctions::saveGridToFile(Grid grid, int rows, int cols,
 		string file) {
 	ofstream outFile(file.c_str(), ios::out); // creating file object
 
@@ -109,21 +110,25 @@ void HelperFunctions::saveGridToFile(Cell* grid, int rows, int cols,
 	int size = rows * cols;
 	outFile << rows << endl;
 	outFile << cols << endl;
+	outFile << grid.population << endl;
+	outFile << grid.infected << endl;
+	outFile << grid.recovered << endl;
+	outFile << grid.susceptible << endl;
 	for (int i = 0; i < size; i++) {
-		int vectorSize = grid[i].people.size();
+		int vectorSize = grid.grid.at(i).people.size();
 		outFile << vectorSize << endl;
 		for (int j = 0; j < vectorSize; j++) {
 
-			outFile << grid[i].people.at(j).healthState << endl;
-			//std::ostream_iterator<std::string> output_iterator(outFile, "\n");
-			//std::copy(grid[i].people.begin(), grid[i].people.end(), output_iterator);
+			outFile << grid.grid.at(i).people.at(j).healthState << endl;
+
 		}		 // end of inner for loop
 
 	}		 // end of outer for loop
 
 }		 // end of method
 
-void HelperFunctions::loadGridFromFile(Cell* grid, string file) {
+Grid HelperFunctions::loadGridFromFile(string file) {
+
 	string line;
 	ifstream inFile(file.c_str());
 	//ifstream inFile ("001.aut");
@@ -132,17 +137,27 @@ void HelperFunctions::loadGridFromFile(Cell* grid, string file) {
 		inFile >> rows;
 		inFile >> cols;
 		int size = rows * cols;
+		Grid grid(size);
+		inFile >> grid.population;
+		inFile >> grid.infected;
+		inFile >> grid.recovered;
+		inFile >> grid.susceptible;
+
+		//grid.grid.resize(size);
 		for (int i = 0; i < size; i++) {
 			int vectorSize;
 			inFile >> vectorSize;
+			//grid.grid.at(i).people.resize(vectorSize);
 			for (int j = 0; j < vectorSize; j++) {
-				inFile >> grid[i].people.at(j).healthState;
+				inFile >> grid.grid.at(i).people.at(j).healthState;
 			}
 		}
 		inFile.close();
+		return grid;
 	}		 // end of if file is open
 	else
 		cout << "Unable to open file" << endl << endl;
+	return 0;
 }
 
 int HelperFunctions::getIndex(int r, int c, int cols) {

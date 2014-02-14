@@ -9,6 +9,7 @@
 #define HELPERFUNCTIONS_H_
 
 #include "Cell.h"
+#include "Grid.h"
 #include <iostream>
 #include <iterator>
 #include <vector>
@@ -27,10 +28,10 @@ class HelperFunctions {
 public:
 	HelperFunctions();
 	virtual ~HelperFunctions();
-	static void printGrid(Cell grid[],int, int  );
-	static void computeGrid (Cell* grid, int, int);
-	static void saveGridToFile (Cell* grid, int, int,string);
-	static void loadGridFromFile (Cell* grid, string);
+	static void printGrid(Grid,int, int  );
+	static Grid computeGrid (Grid, int, int);
+	static void saveGridToFile (Grid, int, int, string);
+	static Grid loadGridFromFile (string);
 	static int getIndex(int,int,int);
 
 };
