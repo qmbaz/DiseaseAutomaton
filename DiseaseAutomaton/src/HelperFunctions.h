@@ -28,10 +28,10 @@ class HelperFunctions {
 public:
 	HelperFunctions();
 	virtual ~HelperFunctions();
-	static void printGrid(Grid,int, int  );
-	static Grid computeGrid (Grid, int, int);
-	static void saveGridToFile (Grid, int, int, string);
-	static Grid loadGridFromFile (string);
+	//static void printGrid(Grid,int, int  );
+	//static Grid computeGrid (Grid, int, int);
+	//static void saveGridToFile (Grid, int, int, string);
+	//static Grid loadGridFromFile (string);
 	static int getIndex(int,int,int);
 
 };

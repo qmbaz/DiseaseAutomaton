@@ -23,7 +23,7 @@ int main() {
 	//cout << "one two three";
 	int rows = 20;
 	int cols = 20;
-	int size = rows*cols;
+	//int size = rows*cols;
 	//Cell TheGrid[size]; // creating a grid in the form of array of size "size"
 	//for (int i = 0; i < size; i++) {
 
@@ -58,7 +58,7 @@ int main() {
 	//HelperFunctions::loadGridFromFile(TheGrid,"one");
 	//HelperFunctions::printGrid(TheGrid,rows,cols);
 
-	Grid AGrid(size);
+	//Grid AGrid(size);
 
 		//	AGrid.grid.at(1).people.at(0).healthState='i';
 		//	AGrid.grid.at(cols).people.at(0).healthState='i'; // cols is a number of columns, so as the position is counted from 0, this is the
@@ -68,12 +68,13 @@ int main() {
 		AGrid.grid.at(i*(cols+1)).people.at(0).healthState='i';
 
 		}*/
-	AGrid=HelperFunctions::loadGridFromFile("beginningState.aut");
+	Grid AGrid(rows,cols);
+	AGrid.loadGridFromFile("beginningState.aut");
 	//HelperFunctions::saveGridToFile(AGrid,rows,cols,"beginningState.aut");
-	HelperFunctions::printGrid(AGrid,rows,cols);
+	AGrid.printGrid();
 	for (int i = 0; i <20; i++){
-		AGrid=HelperFunctions::computeGrid(AGrid,rows,cols);
-		HelperFunctions::printGrid(AGrid,rows,cols);
+		AGrid.computeGrid();
+		AGrid.printGrid();
 		//cout << "\n";
 
 	}
