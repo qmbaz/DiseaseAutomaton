@@ -18,9 +18,7 @@ using std::cout;
 int main() {
 
 
-	//HelperFunctions h;
 
-	//cout << "one two three";
 	int rows = 20;
 	int cols = 20;
 	//int size = rows*cols;
