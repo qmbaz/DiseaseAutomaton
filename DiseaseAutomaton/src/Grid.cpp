@@ -64,7 +64,36 @@ void Grid::printGrid() {
 }
 
 void Grid::updateStats(){
+	resetStats();
 
+	unsigned long size = row * col;
+	for (unsigned long i=0; i< size;i++){
+		for (unsigned long j=0; j<grid.at(i).people.size();j++){
+			population++;
+			char state = grid.at(i).people.at(j).healthState;
+			switch (state){
+			case 's': susceptible++;break;
+			case 'i': infected++;break;
+			case 'r': recovered++;break;
+			}
+		}
+	}
+}
+
+void Grid::printStats(){
+	cout << endl;
+	cout << "population:	" << population << endl;
+	cout << "susceptible:	" << susceptible << endl;
+	cout << "infected:	"<< infected << endl;
+	cout << "recovered:	"<< recovered << endl;
+	cout << endl;
+}
+
+void Grid::resetStats(){
+	population = 0;
+	susceptible = 0;
+	infected = 0;
+	recovered = 0;
 }
 
 void Grid::computeGrid() {

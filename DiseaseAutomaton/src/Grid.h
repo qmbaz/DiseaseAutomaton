@@ -35,6 +35,8 @@ public:
 	unsigned long recovered;
 	unsigned long susceptible;
 	void updateStats();
+	void printStats();
+	void resetStats();
 	void printGrid();
 	void computeGrid ();
 	void saveGridToFile (string);

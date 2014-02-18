@@ -72,7 +72,9 @@ int main() {
 	AGrid.printGrid();
 	for (int i = 0; i <20; i++){
 		AGrid.computeGrid();
+		AGrid.updateStats();
 		AGrid.printGrid();
+		AGrid.printStats();
 		//cout << "\n";
 
 	}
