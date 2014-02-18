@@ -57,7 +57,7 @@ void Grid::printGrid() {
 				counter--;
 			}
 			cout << " ";
-		}
+		}//
 		cout << "\n";
 	}
 	cout << "\n";
