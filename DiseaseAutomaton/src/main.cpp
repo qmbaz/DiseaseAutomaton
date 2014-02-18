@@ -52,7 +52,7 @@ int main() {
 		cout << "\n";
 
 	}
-	HelperFunctions::saveGridToFile(TheGrid,rows,cols);*/
+	HelperFunctions::saveGridToFile(TheGrid,rows,cols);*///
 	//HelperFunctions::loadGridFromFile(TheGrid,"one");
 	//HelperFunctions::printGrid(TheGrid,rows,cols);
 

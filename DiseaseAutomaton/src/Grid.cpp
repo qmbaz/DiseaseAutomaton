@@ -65,7 +65,7 @@ void Grid::printGrid() {
 
 void Grid::updateStats(){
 	resetStats();
-
+//
 	unsigned long size = row * col;
 	for (unsigned long i=0; i< size;i++){
 		for (unsigned long j=0; j<grid.at(i).people.size();j++){
