@@ -18,7 +18,7 @@ public:
 	void addPeople(Person);
 	int getNumberOfPeopleInACell();
 	Person getPerson(int);
-//changed from private to public to have it accessible
+//changed from private to public to have it accessible .
 //private:
 	std::vector <Person> people;
 };
