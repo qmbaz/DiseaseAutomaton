@@ -9,6 +9,7 @@
 #include "Cell.h"
 #include "Person.h"
 #include "HelperFunctions.h"
+#include <time.h>
 
 using std::cout;
 
@@ -19,8 +20,8 @@ int main() {
 
 
 
-	int rows = 20;
-	int cols = 20;
+	int rows = 200;
+	int cols = 200;
 	//int size = rows*cols;
 	//Cell TheGrid[size]; // creating a grid in the form of array of size "size"
 	//for (int i = 0; i < size; i++) {
@@ -66,19 +67,25 @@ int main() {
 		AGrid.grid.at(i*(cols+1)).people.at(0).healthState='i';
 
 		}*/
+	time_t start;
+		time_t finish;
+		double computeTime;
+		time (&start);
 	Grid AGrid(rows,cols);
 	AGrid.loadGridFromFile("beginningState.aut");
 	//HelperFunctions::saveGridToFile(AGrid,rows,cols,"beginningState.aut");
-	AGrid.printGrid();
+	//AGrid.printGrid();
 	for (int i = 0; i <20; i++){
 		AGrid.computeGrid();
 		AGrid.updateStats();
-		AGrid.printGrid();
+		//AGrid.printGrid();
 		AGrid.printStats();
 		//cout << "\n";
 
 	}
-
+	time (&finish);
+	computeTime = difftime(finish,start);
+	cout << endl << "compute time is: "<< computeTime << " seconds"<< endl << endl;
 	return 0;
 }
 

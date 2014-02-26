@@ -13,6 +13,7 @@
 #include <fstream>
 #include "Cell.h"
 #include "HelperFunctions.h"
+#include <time.h>
 using std::string;
 using std::cout;
 using std::ios;

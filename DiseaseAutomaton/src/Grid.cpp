@@ -98,8 +98,10 @@ void Grid::resetStats(){
 
 void Grid::computeGrid() {
 
-	//int size = rows * cols;
 
+	struct timespec start, stop;
+	double execTime;
+	clock_gettime(CLOCK_MONOTONIC,  &start);
 	Grid gridTemp(row,col);
 	for (int i = 0; i < row; i++) {
 		for (int j = 0; j < col; j++) {
@@ -152,6 +154,13 @@ void Grid::computeGrid() {
 		}
 	}
 	grid = gridTemp.grid;
+	  clock_gettime(CLOCK_MONOTONIC,  &stop);
+	  execTime = (stop.tv_sec - start.tv_sec) + (double) (stop.tv_nsec - start.tv_nsec) * 1e-9;
+	  cout << endl << "Execution time in miliseconds: " << execTime*1000 << endl;
+	/*cout << endl << "start time is: " << start << endl;
+	cout <<endl << "end time is: " << finish << endl;
+	cout << endl << "compute time is: "<< computeTime << endl << endl;*/
+
 	/*for (int i = 0; i < size; i++) {
 		grid.grid.at(i) = gridTemp.grid.at(i);
 	}*/
