@@ -20,6 +20,7 @@ public:
 // make healthstate public to have it accessible
 //private:
 	char healthState;// Susceptible, Infected, Removed/Recovered
+	int timeTillRecovered;
 
 };
 

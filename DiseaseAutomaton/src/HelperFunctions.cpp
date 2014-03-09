@@ -24,3 +24,4 @@ int HelperFunctions::getIndex(int r, int c, int cols) {
 	return i;
 }
 //
+

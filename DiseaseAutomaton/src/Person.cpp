@@ -10,10 +10,12 @@
 Person::Person() {
 	// TODO Auto-generated constructor stub
 	healthState = 's';
+	timeTillRecovered = -1;
 }
 
 Person::Person(char healthStateParam) {
 	healthState = healthStateParam;
+	//timeTillRecovered = -1;
 
 }
 
