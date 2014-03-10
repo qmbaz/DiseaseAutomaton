@@ -20,7 +20,7 @@ public:
 	Person getPerson(int);
 //changed from private to public to have it accessible ...
 //private:
-	std::vector <Person> people;
+	std::vector<Person> people;
 };
 
 #endif /* CELL_H_ */

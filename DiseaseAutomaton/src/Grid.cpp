@@ -31,7 +31,7 @@ Grid::Grid(int inputRow, int inputCol, int infTime) {
 	for (int i = 0; i < size; i++) { // iterating through the grid vector
 
 		Person citizen('s'); // create a person with a state of "susceptible"
-		citizen.timeTillRecovered=-1;
+		citizen.timeTillRecovered = -1;
 		Cell oneCell; // create a cell
 		oneCell.addPeople(citizen);
 		// add more people to cell here
@@ -107,11 +107,10 @@ void Grid::resetStats() {
 
 void Grid::computeGrid() {
 
-
 	struct timespec start, stop;
 	double execTime;
 	clock_gettime(CLOCK_MONOTONIC, &start);
-	Grid gridTemp(row, col,infectionTime);
+	Grid gridTemp(row, col, infectionTime);
 	for (int i = 0; i < row; i++) {
 		for (int j = 0; j < col; j++) {
 
@@ -149,15 +148,16 @@ void Grid::computeGrid() {
 			//char personState;
 			Person newPerson;
 			//char currentState =
-				//	grid.at(HelperFunctions::getIndex(i, j, col)).people.at(0).healthState;
-			Person currentPerson = grid.at(HelperFunctions::getIndex(i, j, col)).people.at(0);
+			//	grid.at(HelperFunctions::getIndex(i, j, col)).people.at(0).healthState;
+			Person currentPerson =
+					grid.at(HelperFunctions::getIndex(i, j, col)).people.at(0);
 
 			/////// if current person is susceptible ('s')
 			if (currentPerson.healthState == 's') {
 				if (infectedCounter > 1) { // this will need to be changed for a better way of determining if a person gets infected
 					newPerson.healthState = 'i';
 					newPerson.timeTillRecovered = infectionTime;
-				//	personState
+					//	personState
 
 				} else {
 					newPerson.healthState = currentPerson.healthState; // which means it's still 's'
@@ -165,17 +165,17 @@ void Grid::computeGrid() {
 			}
 
 			/////// if current person is infective ('i')
-			else if (currentPerson.healthState=='i'){
+			else if (currentPerson.healthState == 'i') {
 				newPerson = currentPerson;
 				newPerson.timeTillRecovered--;
 				//currentPerson.timeTillRecovered--;
-				if (currentPerson.timeTillRecovered<=0){
+				if (currentPerson.timeTillRecovered <= 0) {
 					newPerson.healthState = 'r';
 				}
 			}
 
 			//////  if current person is recovered with immunity ('r')
-			else if (currentPerson.healthState=='r'){
+			else if (currentPerson.healthState == 'r') {
 				newPerson = currentPerson;
 			}
 
@@ -222,7 +222,7 @@ void Grid::saveGridToFile(string file) {
 		outFile << vectorSize << endl;
 		for (int j = 0; j < vectorSize; j++) {
 
-			outFile << grid.at(i).people.at(j).healthState << endl;// put in timeTillRecoveredh as well
+			outFile << grid.at(i).people.at(j).healthState << endl; // put in timeTillRecoveredh as well
 			outFile << grid.at(i).people.at(j).timeTillRecovered << endl;
 		}		 // end of inner for loop
 
@@ -267,6 +267,5 @@ void Grid::loadGridFromFile(string file) {
 	}		 // end of if file is open
 	else
 		cout << "Unable to open file" << endl << endl;
-
 
 }
