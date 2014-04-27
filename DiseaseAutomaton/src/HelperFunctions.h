@@ -34,7 +34,7 @@ public:
 	//static Grid computeGrid (Grid, int, int);
 	//static void saveGridToFile (Grid, int, int, string);
 	//static Grid loadGridFromFile (string);
-	static int getIndex(int, int, int);
+	static unsigned long getIndex(int, int, int);
 	static int testAndSetCoordinate(int, int, string, string);
 	static unsigned long timeVal();
 	static bool stochastic(float cntg, int count);

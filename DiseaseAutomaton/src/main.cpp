@@ -20,7 +20,7 @@ using std::string;
 void testLoading(){//
 	Grid tGrid;
 		tGrid.loadGridFromFile("multiple.dat");
-		for (int i=0;i<(tGrid.row*tGrid.col);i++){
+		for (unsigned int i=0;i<(tGrid.row*tGrid.col);i++){
 			cout << "cell no " << i << endl;
 			for (int j=0;j<tGrid.grid.at(i).getNumberOfPeopleInACell();j++){
 				cout << "person no " << j << " state is " << tGrid.grid.at(i).people.at(j).getHealthState() << endl;
@@ -30,29 +30,30 @@ void testLoading(){//
 }
 
 
-void testCreate(int ROWS, int COLS, int INFECTION_TIME, int PEOPLE_IN_A_CELL, string filen, float infecRate){
-	Grid aGrid (ROWS,COLS,INFECTION_TIME,PEOPLE_IN_A_CELL,infecRate);
+void testCreate(int ROWS, int COLS, int INFECTION_TIME, int PEOPLE_IN_A_CELL, string filen, float infecRate, float deathRate){
+	Grid aGrid (ROWS,COLS,INFECTION_TIME,PEOPLE_IN_A_CELL,infecRate, deathRate );
 		aGrid.saveGridToFile(filen+"_initial");
 }
 
 int main() {
 
-	int ROWS = 30;
-	int COLS = 30;
-	int ITERATIONS = 20;
-	int INFECTION_TIME = 10;
-	int PEOPLE_IN_A_CELL = 10;
+	unsigned int ROWS = 5;
+	unsigned int COLS = 5;
+	unsigned int ITERATIONS = 20;
+	unsigned int INFECTION_TIME = 10;
+	unsigned int PEOPLE_IN_A_CELL = 2;
 	float CONTAGIOUSNESS = 0.02;
+	float DEATH_RATE = 0.1;
 	int INFECTION_POINT_X_COORDINATE = 3;
 	int INFECTION_POINT_Y_COORDINATE = 3;
-	int INFECTION_POINT_NUMBER_OF_INFECTED = 5;
+	int INFECTION_POINT_NUMBER_OF_INFECTED = 10;
 	string filen = "belgium";
 	string infectedPopulationFile = "infectedPlot.dat";
 	string susceptiblePopulationFile = "susceptiblePlot.dat";
 	string recoveredPopulationFile = "recoveredPlot.dat";
 	string allPopulationFile = "allPlot.dat";
 
-Grid newGr(ROWS,COLS, INFECTION_TIME,PEOPLE_IN_A_CELL, CONTAGIOUSNESS);
+Grid newGr(ROWS,COLS, INFECTION_TIME,PEOPLE_IN_A_CELL, CONTAGIOUSNESS, DEATH_RATE);
 newGr.updateStats();
 newGr.printStats();
 newGr.printGridInfected();
@@ -63,7 +64,7 @@ newGr.printStats();
 
 for (int i=0;i< ITERATIONS;i++){
 	newGr.computeGrid();
-	newGr.printGridInfected();
+	newGr.printGridRecovered();
 	newGr.updateStats();
 	newGr.printStats();
 }
