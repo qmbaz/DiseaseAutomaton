@@ -42,29 +42,32 @@ int main() {
 	int iterations = 40;
 	int infectionTime = 10;
 	int peopleInACell = 5;
+	float contagiousness = 0.02;
+	int INFECTION_POINT_X_COORDINATE = 3;
+	int INFECTION_POINT_Y_COORDINATE = 3;
+	int INFECTION_POINT_NUMBER_OF_INFECTED = 5;
 	string filen = "belgium";
 	string infectedPopulationFile = "infectedPlot.dat";
 	string susceptiblePopulationFile = "susceptiblePlot.dat";
 	string recoveredPopulationFile = "recoveredPlot.dat";
 	string allPopulationFile = "allPlot.dat";
 
-Grid testInfectedPrint(rows,cols, infectionTime,peopleInACell, 0.002);
-//testInfectedPrint.printAllPeopleStates();
+Grid newGr(rows,cols, infectionTime,peopleInACell, contagiousness);
+newGr.updateStats();
+newGr.printStats();
+newGr.printGridInfected();
+newGr.infectionPoint(INFECTION_POINT_X_COORDINATE,INFECTION_POINT_Y_COORDINATE,INFECTION_POINT_NUMBER_OF_INFECTED);
+newGr.printGridInfected();
+newGr.updateStats();
+newGr.printStats();
 
-testInfectedPrint.infectionPoint(3,3,5);
-testInfectedPrint.printPeopleStatesInACell(7,7);
+for (int i=0;i< 20;i++){
+	newGr.computeGrid();
+	newGr.printGridInfected();
+	newGr.updateStats();
+	newGr.printStats();
+}
 
-testInfectedPrint.printGridInfected();
-testInfectedPrint.printGridRecovered();
-testInfectedPrint.printGridSusceptible();
-testInfectedPrint.printGridPopulation();
-string fnam = "withInfRate.aut";
-testInfectedPrint.saveGridToFile(fnam);
-
-Grid newG;
-newG.loadGridFromFile(fnam);
-newG.printAllPeopleStates();
-cout << newG.infectionProbability << endl;
 /*
 	//testLoading();
 	testCreate (rows, cols, infectionTime, peopleInACell,filen, 0.001);

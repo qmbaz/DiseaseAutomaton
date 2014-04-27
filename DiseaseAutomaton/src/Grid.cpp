@@ -21,7 +21,8 @@ Grid::Grid() {
 
 }
 
-Grid::Grid(int inputRow, int inputCol, int infTime, int pInACell, float infecPr) {
+Grid::Grid(int inputRow, int inputCol, int infTime, int pInACell,
+		float infecPr) {
 	population = 0;
 	infected = 0;
 	recovered = 0;
@@ -141,14 +142,14 @@ void Grid::printPeopleStatesInACell(int ro, int co) {
 	co = HelperFunctions::testAndSetCoordinate(co, col, introName, "column");
 
 	cout << introName << "cell coordinates" << endl;
-	cout << "row - " << ro+1 << endl;
-	cout << "column - " << co+1 <<endl;
+	cout << "row - " << ro + 1 << endl;
+	cout << "column - " << co + 1 << endl;
 	int index = HelperFunctions::getIndex(ro, co, col);
 	cout << "array index - " << index << endl;
-		for (int j = 0; j < grid.at(index).getNumberOfPeopleInACell(); j++) {
-			cout << "person no " << j << " state is "
-					<< grid.at(index).people.at(j).getHealthState() << endl;
-		}
+	for (int j = 0; j < grid.at(index).getNumberOfPeopleInACell(); j++) {
+		cout << "person no " << j << " state is "
+				<< grid.at(index).people.at(j).getHealthState() << endl;
+	}
 }
 
 void Grid::infectionPoint(int ro, int co, int num) { // row and column coordinates numbered from 1
@@ -220,8 +221,8 @@ void Grid::computeGrid() {
 				int infectedCounter = 0;
 				// the cells on the edges of the grid won't check for cells outside the grid,
 				// this is what the first if statements are for
-				//up
 
+				//up
 				if (i > 0) {				// if it's not the first row
 					for (int numN = 0;// numN - number of a person in a neighbouring cell
 							numN
@@ -230,6 +231,22 @@ void Grid::computeGrid() {
 													col)).people.size();
 							numN++) {
 						if (grid.at(HelperFunctions::getIndex(i - 1, j, col)).people.at(
+								numN).healthState == 'i') {	// and if the cell just above is infected
+							infectedCounter++;			// increment the counter
+						};
+					};
+				};
+
+				//up-right
+				if (i > 0 && j < col - 1) {	// if it's not the first row or the last column
+					for (int numN = 0;// numN - number of a person in a neighbouring cell
+							numN
+									< grid.at(
+											HelperFunctions::getIndex(i - 1,
+													j + 1, col)).people.size();
+							numN++) {
+						if (grid.at(
+								HelperFunctions::getIndex(i - 1, j + 1, col)).people.at(
 								numN).healthState == 'i') {	// and if the cell just above is infected
 							infectedCounter++;			// increment the counter
 						};
@@ -252,6 +269,23 @@ void Grid::computeGrid() {
 					};
 				};
 
+				// down-right
+
+				if (i < row - 1 && j < col - 1) {// if it's not the last row or column
+					for (int numN = 0;
+							numN
+									< grid.at(
+											HelperFunctions::getIndex(i + 1,
+													j + 1, col)).people.size();
+							numN++) {
+						if (grid.at(
+								HelperFunctions::getIndex(i + 1, j + 1, col)).people.at(
+								numN).healthState == 'i') {	// if the cell to the right is infected
+							infectedCounter++;
+						};
+					};
+				};
+
 				//down i + 1, j, cols
 
 				if (i < row - 1) {				// if it's not the last row
@@ -262,6 +296,23 @@ void Grid::computeGrid() {
 													col)).people.size();
 							numN++) {
 						if (grid.at(HelperFunctions::getIndex(i + 1, j, col)).people.at(
+								numN).healthState == 'i') {	// if the cell just below is infected
+							infectedCounter++;
+						};
+					};
+				};
+
+				// down-left
+
+				if (i < row - 1 && j > 0) {	// if it's not the last row or the first column
+					for (int numN = 0;
+							numN
+									< grid.at(
+											HelperFunctions::getIndex(i + 1,
+													j - 1, col)).people.size();
+							numN++) {
+						if (grid.at(
+								HelperFunctions::getIndex(i + 1, j - 1, col)).people.at(
 								numN).healthState == 'i') {	// if the cell just below is infected
 							infectedCounter++;
 						};
@@ -282,6 +333,35 @@ void Grid::computeGrid() {
 						};
 					};
 				};
+
+				//up -left
+				if (j > 0 && i > 0) { // if it's not the first column and not the first row
+					for (int numN = 0;
+							numN
+									< grid.at(
+											HelperFunctions::getIndex(i - 1,
+													j - 1, col)).people.size();
+							numN++) {
+						if (grid.at(
+								HelperFunctions::getIndex(i - 1, j - 1, col)).people.at(
+								numN).healthState == 'i') { // if the cell to the left is infected
+							infectedCounter++;
+						};
+					};
+				};
+
+				//same cell
+				for (int numN = 0;
+						numN
+								< grid.at(
+										HelperFunctions::getIndex(i, j ,
+												col)).people.size(); numN++) {
+					if (grid.at(HelperFunctions::getIndex(i, j, col)).people.at(
+							numN).healthState == 'i') { // if the cell to the left is infected
+						infectedCounter++;
+					};
+				};
+
 				Person newPerson;
 
 				Person currentPerson = grid.at(
@@ -289,7 +369,8 @@ void Grid::computeGrid() {
 
 				/////// if current person is susceptible ('s')
 				if (currentPerson.healthState == 's') {
-					if (infectedCounter > 1) { // this will need to be changed for a better way of determining if a person gets infected
+					if (HelperFunctions::stochastic(infectionProbability,
+							infectedCounter)) { // this will need to be changed for a better way of determining if a person gets infected
 						newPerson.healthState = 'i';
 						newPerson.timeTillRecovered = infectionTime;
 						//	personState
