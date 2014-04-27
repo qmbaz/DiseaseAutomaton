@@ -51,7 +51,8 @@ int main() {
 Grid testInfectedPrint(rows,cols, infectionTime,peopleInACell);
 //testInfectedPrint.printAllPeopleStates();
 
-testInfectedPrint.infectionPoint(2,4,5);
+testInfectedPrint.infectionPoint(3,3,5);
+testInfectedPrint.printPeopleStatesInACell(7,7);
 
 testInfectedPrint.printGridInfected();
 testInfectedPrint.printGridRecovered();

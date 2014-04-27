@@ -16,7 +16,6 @@ HelperFunctions::~HelperFunctions() {
 	// TODO Auto-generated destructor stub
 }
 
-
 int HelperFunctions::getIndex(int r, int c, int cols) {
 	int i;
 	i = r * cols + c;
@@ -25,3 +24,21 @@ int HelperFunctions::getIndex(int r, int c, int cols) {
 }
 //
 
+int HelperFunctions::testAndSetCoordinate(int coor, int max, string introText, string coorName) {
+	coor--;
+	if (coor < 0) {
+		coor = 0;
+		cout << introText << "the " << coorName
+				<< " coordinate is less than 1 --> set to the minimum value of 1"
+				<< endl;
+
+	}
+	if (coor >= max) {
+		coor = max - 1;
+		cout << introText << "the " << coorName
+				<< " coordinate too large --> reduced to maximum value of "
+				<< max << endl;
+
+	}
+	return coor;
+}

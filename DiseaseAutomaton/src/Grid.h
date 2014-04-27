@@ -47,6 +47,7 @@ public:
 	void printGridRecovered();
 	void printGridPopulation();
 	void printAllPeopleStates();
+	void printPeopleStatesInACell(int, int);
 	void infectionPoint (int,int,int);
 	void computeGrid ();
 	void fillPeopleVector();

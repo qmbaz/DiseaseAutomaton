@@ -133,41 +133,27 @@ void Grid::printAllPeopleStates() {
 	}
 }
 
+void Grid::printPeopleStatesInACell(int ro, int co) {
+	string introName = "Print people states in a cell: ";
+	ro = HelperFunctions::testAndSetCoordinate(ro, row, introName, "row");
+	co = HelperFunctions::testAndSetCoordinate(co, col, introName, "column");
+
+	cout << introName << "cell coordinates" << endl;
+	cout << "row - " << ro+1 << endl;
+	cout << "column - " << co+1 <<endl;
+	int index = HelperFunctions::getIndex(ro, co, col);
+	cout << "array index - " << index << endl;
+		for (int j = 0; j < grid.at(index).getNumberOfPeopleInACell(); j++) {
+			cout << "person no " << j << " state is "
+					<< grid.at(index).people.at(j).getHealthState() << endl;
+		}
+}
+
 void Grid::infectionPoint(int ro, int co, int num) { // row and column coordinates numbered from 1
-	ro--;//
-	co--;// conversion from coordinates numbered from 1 to numbered from 0 - which is demanded by HelperFunctions:getIndex
 
-	if (ro < 0) {
-		ro = 0;
-		cout
-				<< "Infection point: the row coordinate is less than 1 --> set to the minimum value of 1"
-				<< endl;
-
-	}
-
-	if (co < 0) {
-		co = 0;
-		cout
-				<< "Infection point: the column coordinate is less than 1 --> set to the minimum value of 1"
-				<< endl;
-
-	}
-
-	if (ro >= row) {
-		ro = row - 1;
-		cout << "Infection point: the row coordinate too large --> reduced to maximum value of "
-				<< row << endl;
-
-	}
-
-	if (co >= col) {
-		co = col - 1;
-		cout
-				<< "Infection point: the column coordinate too large --> reduced to maximum value of "
-				<< col << endl;
-
-	}
-
+	string introName = "Infection point:";
+	ro = HelperFunctions::testAndSetCoordinate(ro, row, introName, "row");
+	co = HelperFunctions::testAndSetCoordinate(co, col, introName, "column");
 	unsigned long position = HelperFunctions::getIndex(ro, co, col);
 	Person infected('i');
 	infected.timeTillRecovered = infectionTime;

@@ -32,8 +32,8 @@ public:
 	//static Grid computeGrid (Grid, int, int);
 	//static void saveGridToFile (Grid, int, int, string);
 	//static Grid loadGridFromFile (string);
-	static int getIndex(int,int,int);
-
+	static int getIndex(int, int, int);
+	static int testAndSetCoordinate(int, int, string, string);
 };
 
 #endif /* HELPERFUNCTIONS_H_ */
