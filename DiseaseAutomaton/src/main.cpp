@@ -30,8 +30,8 @@ void testLoading(){//
 }
 
 
-void testCreate(int ROWS, int COLS, int INFECTION_TIME, int PEOPLE_IN_A_CELL, string filen, float infecRate, float deathRate){
-	Grid aGrid (ROWS,COLS,INFECTION_TIME,PEOPLE_IN_A_CELL,infecRate, deathRate );
+void testCreate(int ROWS, int COLS, int INFECTION_TIME, int PEOPLE_IN_A_CELL, string filen, float infecRate, float deathRate, float birthRate, float natBirthRate){
+	Grid aGrid (ROWS,COLS,INFECTION_TIME,PEOPLE_IN_A_CELL,infecRate, deathRate, birthRate, natBirthRate );
 		aGrid.saveGridToFile(filen+"_initial");
 }
 
@@ -42,29 +42,31 @@ int main() {
 	unsigned int ITERATIONS = 20;
 	unsigned int INFECTION_TIME = 10;
 	unsigned int PEOPLE_IN_A_CELL = 2;
-	float CONTAGIOUSNESS = 0.02;
-	float DEATH_RATE = 0.1;
+	float CONTAGIOUSNESS = 0;
+	float DEATH_RATE = 0;
+	float NATURAL_DEATH_RATE = 0.1;
+	float BIRTH_RATE = 0;
 	int INFECTION_POINT_X_COORDINATE = 3;
 	int INFECTION_POINT_Y_COORDINATE = 3;
-	int INFECTION_POINT_NUMBER_OF_INFECTED = 10;
+	int INFECTION_POINT_NUMBER_OF_INFECTED = 0;
 	string filen = "belgium";
 	string infectedPopulationFile = "infectedPlot.dat";
 	string susceptiblePopulationFile = "susceptiblePlot.dat";
 	string recoveredPopulationFile = "recoveredPlot.dat";
 	string allPopulationFile = "allPlot.dat";
 
-Grid newGr(ROWS,COLS, INFECTION_TIME,PEOPLE_IN_A_CELL, CONTAGIOUSNESS, DEATH_RATE);
+Grid newGr(ROWS,COLS, INFECTION_TIME,PEOPLE_IN_A_CELL, CONTAGIOUSNESS, DEATH_RATE, BIRTH_RATE, NATURAL_DEATH_RATE);
 newGr.updateStats();
 newGr.printStats();
-newGr.printGridInfected();
+newGr.printGridPopulation();
 newGr.infectionPoint(INFECTION_POINT_X_COORDINATE,INFECTION_POINT_Y_COORDINATE,INFECTION_POINT_NUMBER_OF_INFECTED);
-newGr.printGridInfected();
+newGr.printGridPopulation();
 newGr.updateStats();
 newGr.printStats();
 
 for (int i=0;i< ITERATIONS;i++){
 	newGr.computeGrid();
-	newGr.printGridRecovered();
+	newGr.printGridPopulation();
 	newGr.updateStats();
 	newGr.printStats();
 }

@@ -12,6 +12,7 @@ class Person {
 public:
 	Person();
 	Person(char);
+	Person(char,int);
 	virtual ~Person();
 
 	char getHealthState();

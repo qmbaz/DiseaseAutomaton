@@ -19,11 +19,13 @@ Grid::Grid() {
 	peopleInACell = 0;
 	infectionProbability = 0;
 	deathRate = 0;
+	birthRate = 0;
+	naturalDeathRate =0;
 
 }
 
-Grid::Grid(int inputRow, int inputCol, int infTime, int pInACell,
-		float infecPr, float deathR) {
+Grid::Grid(int inputRow, int inputCol, int infTime, int pInACell, float infecPr,
+		float deathR, float birthR, float natBirthR) {
 	population = 0;
 	infected = 0;
 	recovered = 0;
@@ -34,6 +36,8 @@ Grid::Grid(int inputRow, int inputCol, int infTime, int pInACell,
 	peopleInACell = pInACell;
 	infectionProbability = infecPr;
 	deathRate = deathR;
+	birthRate = birthR;
+	naturalDeathRate = natBirthR;
 	unsigned long size = row * col;
 	for (unsigned long i = 0; i < size; i++) { // iterating through the grid vector
 		Cell oneCell; // create a cell
@@ -128,7 +132,7 @@ void Grid::printGridPopulation() {
 }
 
 void Grid::printAllPeopleStates() {
-	for (int i = 0; i < (row * col); i++) {
+	for (unsigned long i = 0; i < (row * col); i++) {
 		cout << "cell no " << i << endl;
 		for (int j = 0; j < grid.at(i).getNumberOfPeopleInACell(); j++) {
 			cout << "person no " << j << " state is "
@@ -213,10 +217,15 @@ void Grid::computeGrid() {
 	struct timespec start, stop;
 	double exec_time;
 	clock_gettime(CLOCK_MONOTONIC, &start);
-	Grid gridTemp(row, col, infectionTime, 0, infectionProbability, deathRate);
+	Grid gridTemp(row, col, infectionTime, 0, infectionProbability, deathRate,
+			birthRate,naturalDeathRate);
 	for (int i = 0; i < row; i++) { // iterate through rows
 		for (int j = 0; j < col; j++) { // iterate through columns
 			Cell oneCell;
+
+			//////////////////////////////////////////////////////////////////////////////////
+			/////// counting infected people in the same cell and all the neighbouring cells
+			//////////////////////////////////////////////////////////////////////////////////
 
 			int infectedCounter = 0;
 			// the cells on the edges of the grid won't check for cells outside the grid,
@@ -350,63 +359,73 @@ void Grid::computeGrid() {
 			};
 
 			///////////////////////////////////////////////////////////////////////////////////
+			/////////       end of counting infected people           /////////////////////////
+			///////////////////////////////////////////////////////////////////////////////////
 
+			// births
+			if (HelperFunctions::stochastic(birthRate, 1)) {
+				Person newPerson;
+				newPerson.healthState = 's';
+				newPerson.timeTillRecovered = -1;
+				oneCell.addPeople(newPerson);
+			}
+
+			///// iterating through people in the cell to change their state
+			///////////////////////////////////////////////////////////////////
 			for (int numC = 0; //numC - number of current cell person
 			numC < grid.at(HelperFunctions::getIndex(i, j, col)).people.size();
 					numC++) { // iterate through people in a cell of coordinates i,j
 
-
-
 				Person currentPerson = grid.at(
 						HelperFunctions::getIndex(i, j, col)).people.at(numC);
 
-				/////// if current person is susceptible ('s')
-				if (currentPerson.healthState == 's') {
-					Person newPerson;
-					if (HelperFunctions::stochastic(infectionProbability,
-							infectedCounter)) { // this will need to be changed for a better way of determining if a person gets infected
-						newPerson.healthState = 'i';
-						newPerson.timeTillRecovered = infectionTime;
-						//	personState
+				if (HelperFunctions::stochastic(naturalDeathRate,1)) {// natural deaths
 
-					} else {
-						newPerson.healthState = currentPerson.healthState; // which means it's still 's'
-					}
-					oneCell.addPeople(newPerson);
-				}
-
-				/////// if current person is infective ('i')
-				else if (currentPerson.healthState == 'i') {
-					if (currentPerson.timeTillRecovered >0){
+				} else {
+					/////// if current person is susceptible ('s')
+					if (currentPerson.healthState == 's') {
 						Person newPerson;
-						newPerson = currentPerson;
-						newPerson.timeTillRecovered--;
+						if (HelperFunctions::stochastic(infectionProbability,
+								infectedCounter)) { // this will need to be changed for a better way of determining if a person gets infected
+							newPerson.healthState = 'i';
+							newPerson.timeTillRecovered = infectionTime;
+							//	personState
+
+						} else {
+							newPerson.healthState = currentPerson.healthState; // which means it's still 's'
+						}
 						oneCell.addPeople(newPerson);
 					}
-					else if (currentPerson.timeTillRecovered<=0){
-						if(!HelperFunctions::stochastic(deathRate,1)){
+
+					/////// if current person is infective ('i')
+					else if (currentPerson.healthState == 'i') {
+						if (currentPerson.timeTillRecovered > 0) {
 							Person newPerson;
-							newPerson.healthState = 'r';
+							newPerson = currentPerson;
+							newPerson.timeTillRecovered--;
 							oneCell.addPeople(newPerson);
+						} else if (currentPerson.timeTillRecovered <= 0) {
+							if (!HelperFunctions::stochastic(deathRate, 1)) {
+								Person newPerson;
+								newPerson.healthState = 'r';
+								oneCell.addPeople(newPerson);
+							} else {
+								//we are not creating this man in the new step of the grid, therefore he dies
+							}
 						}
-						else{
-							//we are not creating this man in the new step of the grid, therefore he dies
-						}
+
 					}
 
-				}
+					//////  if current person is recovered with immunity ('r')
+					else if (currentPerson.healthState == 'r') {
+						Person newPerson;
+						newPerson = currentPerson;
+						oneCell.addPeople(newPerson);
+					}
 
-				//////  if current person is recovered with immunity ('r')
-				else if (currentPerson.healthState == 'r') {
-					Person newPerson;
-					newPerson = currentPerson;
-					oneCell.addPeople(newPerson);
-				}
-				//oneCell.addPeople(newPerson);
-			};
-
-			/////// adding new cell to the temporary grid
-			//Person citizen(personState);
+				};
+			}
+			////////////////////////////////////////////////////////
 
 			gridTemp.grid.at(HelperFunctions::getIndex(i, j, col)) = oneCell;
 		}
@@ -435,6 +454,8 @@ void Grid::saveGridToFile(string file) {
 	outFile << infectionTime << endl;
 	outFile << infectionProbability << endl;
 	outFile << deathRate << endl;
+	outFile << naturalDeathRate << endl;
+	outFile << birthRate << endl;
 	outFile << population << endl;
 	outFile << infected << endl;
 	outFile << recovered << endl;
@@ -466,6 +487,8 @@ void Grid::loadGridFromFile(string file) {
 		inFile >> infectionTime;
 		inFile >> infectionProbability;
 		inFile >> deathRate;
+		inFile >> naturalDeathRate;
+		inFile >> birthRate;
 		unsigned long size = row * col;
 		//Grid grid(rows,cols);
 		//inFile >> infectionTime;

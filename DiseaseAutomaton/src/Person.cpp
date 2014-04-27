@@ -15,7 +15,13 @@ Person::Person() {
 
 Person::Person(char healthStateParam) {
 	healthState = healthStateParam;
-	//timeTillRecovered = -1;
+	timeTillRecovered = -1;
+
+}
+
+Person::Person(char healthStateParam, int timeTill) {
+	healthState = healthStateParam;
+	timeTillRecovered = timeTill;
 
 }
 
