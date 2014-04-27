@@ -209,158 +209,161 @@ void Grid::resetStats() {
 void Grid::computeGrid() {
 
 	struct timespec start, stop;
-	long int execTime;
+	double exec_time;
 	clock_gettime(CLOCK_MONOTONIC, &start);
 	Grid gridTemp(row, col, infectionTime, 0, infectionProbability);
 	for (int i = 0; i < row; i++) { // iterate through rows
 		for (int j = 0; j < col; j++) { // iterate through columns
 			Cell oneCell;
+
+			int infectedCounter = 0;
+							// the cells on the edges of the grid won't check for cells outside the grid,
+							// this is what the first if statements are for
+
+							//up
+							if (i > 0) {				// if it's not the first row
+								for (int numN = 0;// numN - number of a person in a neighbouring cell
+										numN
+												< grid.at(
+														HelperFunctions::getIndex(i - 1, j,
+																col)).people.size();
+										numN++) {
+									if (grid.at(HelperFunctions::getIndex(i - 1, j, col)).people.at(
+											numN).healthState == 'i') {	// and if the cell just above is infected
+										infectedCounter++;			// increment the counter
+									};
+								};
+							};
+
+							//up-right
+							if (i > 0 && j < col - 1) {	// if it's not the first row or the last column
+								for (int numN = 0;// numN - number of a person in a neighbouring cell
+										numN
+												< grid.at(
+														HelperFunctions::getIndex(i - 1,
+																j + 1, col)).people.size();
+										numN++) {
+									if (grid.at(
+											HelperFunctions::getIndex(i - 1, j + 1, col)).people.at(
+											numN).healthState == 'i') {	// and if the cell just above is infected
+										infectedCounter++;			// increment the counter
+									};
+								};
+							};
+
+							//right i, j + 1, cols)
+
+							if (j < col - 1) {			// if it's not the last column
+								for (int numN = 0;
+										numN
+												< grid.at(
+														HelperFunctions::getIndex(i, j + 1,
+																col)).people.size();
+										numN++) {
+									if (grid.at(HelperFunctions::getIndex(i, j + 1, col)).people.at(
+											numN).healthState == 'i') {	// if the cell to the right is infected
+										infectedCounter++;
+									};
+								};
+							};
+
+							// down-right
+
+							if (i < row - 1 && j < col - 1) {// if it's not the last row or column
+								for (int numN = 0;
+										numN
+												< grid.at(
+														HelperFunctions::getIndex(i + 1,
+																j + 1, col)).people.size();
+										numN++) {
+									if (grid.at(
+											HelperFunctions::getIndex(i + 1, j + 1, col)).people.at(
+											numN).healthState == 'i') {	// if the cell to the right is infected
+										infectedCounter++;
+									};
+								};
+							};
+
+							//down i + 1, j, cols
+
+							if (i < row - 1) {				// if it's not the last row
+								for (int numN = 0;
+										numN
+												< grid.at(
+														HelperFunctions::getIndex(i + 1, j,
+																col)).people.size();
+										numN++) {
+									if (grid.at(HelperFunctions::getIndex(i + 1, j, col)).people.at(
+											numN).healthState == 'i') {	// if the cell just below is infected
+										infectedCounter++;
+									};
+								};
+							};
+
+							// down-left
+
+							if (i < row - 1 && j > 0) {	// if it's not the last row or the first column
+								for (int numN = 0;
+										numN
+												< grid.at(
+														HelperFunctions::getIndex(i + 1,
+																j - 1, col)).people.size();
+										numN++) {
+									if (grid.at(
+											HelperFunctions::getIndex(i + 1, j - 1, col)).people.at(
+											numN).healthState == 'i') {	// if the cell just below is infected
+										infectedCounter++;
+									};
+								};
+							};
+
+							//left  i, j - 1, cols
+							if (j > 0) { // if it's not the first column
+								for (int numN = 0;
+										numN
+												< grid.at(
+														HelperFunctions::getIndex(i, j - 1,
+																col)).people.size();
+										numN++) {
+									if (grid.at(HelperFunctions::getIndex(i, j - 1, col)).people.at(
+											numN).healthState == 'i') { // if the cell to the left is infected
+										infectedCounter++;
+									};
+								};
+							};
+
+							//up -left
+							if (j > 0 && i > 0) { // if it's not the first column and not the first row
+								for (int numN = 0;
+										numN
+												< grid.at(
+														HelperFunctions::getIndex(i - 1,
+																j - 1, col)).people.size();
+										numN++) {
+									if (grid.at(
+											HelperFunctions::getIndex(i - 1, j - 1, col)).people.at(
+											numN).healthState == 'i') { // if the cell to the left is infected
+										infectedCounter++;
+									};
+								};
+							};
+
+							//same cell
+							for (int numN = 0;
+									numN
+											< grid.at(
+													HelperFunctions::getIndex(i, j ,
+															col)).people.size(); numN++) {
+								if (grid.at(HelperFunctions::getIndex(i, j, col)).people.at(
+										numN).healthState == 'i') { // if the cell to the left is infected
+									infectedCounter++;
+								};
+							};
+
 			for (int numC = 0; //numC - number of current cell person
 			numC < grid.at(HelperFunctions::getIndex(i, j, col)).people.size();
 					numC++) { // iterate through people in a cell of coordinates i,j
-				int infectedCounter = 0;
-				// the cells on the edges of the grid won't check for cells outside the grid,
-				// this is what the first if statements are for
 
-				//up
-				if (i > 0) {				// if it's not the first row
-					for (int numN = 0;// numN - number of a person in a neighbouring cell
-							numN
-									< grid.at(
-											HelperFunctions::getIndex(i - 1, j,
-													col)).people.size();
-							numN++) {
-						if (grid.at(HelperFunctions::getIndex(i - 1, j, col)).people.at(
-								numN).healthState == 'i') {	// and if the cell just above is infected
-							infectedCounter++;			// increment the counter
-						};
-					};
-				};
-
-				//up-right
-				if (i > 0 && j < col - 1) {	// if it's not the first row or the last column
-					for (int numN = 0;// numN - number of a person in a neighbouring cell
-							numN
-									< grid.at(
-											HelperFunctions::getIndex(i - 1,
-													j + 1, col)).people.size();
-							numN++) {
-						if (grid.at(
-								HelperFunctions::getIndex(i - 1, j + 1, col)).people.at(
-								numN).healthState == 'i') {	// and if the cell just above is infected
-							infectedCounter++;			// increment the counter
-						};
-					};
-				};
-
-				//right i, j + 1, cols)
-
-				if (j < col - 1) {			// if it's not the last column
-					for (int numN = 0;
-							numN
-									< grid.at(
-											HelperFunctions::getIndex(i, j + 1,
-													col)).people.size();
-							numN++) {
-						if (grid.at(HelperFunctions::getIndex(i, j + 1, col)).people.at(
-								numN).healthState == 'i') {	// if the cell to the right is infected
-							infectedCounter++;
-						};
-					};
-				};
-
-				// down-right
-
-				if (i < row - 1 && j < col - 1) {// if it's not the last row or column
-					for (int numN = 0;
-							numN
-									< grid.at(
-											HelperFunctions::getIndex(i + 1,
-													j + 1, col)).people.size();
-							numN++) {
-						if (grid.at(
-								HelperFunctions::getIndex(i + 1, j + 1, col)).people.at(
-								numN).healthState == 'i') {	// if the cell to the right is infected
-							infectedCounter++;
-						};
-					};
-				};
-
-				//down i + 1, j, cols
-
-				if (i < row - 1) {				// if it's not the last row
-					for (int numN = 0;
-							numN
-									< grid.at(
-											HelperFunctions::getIndex(i + 1, j,
-													col)).people.size();
-							numN++) {
-						if (grid.at(HelperFunctions::getIndex(i + 1, j, col)).people.at(
-								numN).healthState == 'i') {	// if the cell just below is infected
-							infectedCounter++;
-						};
-					};
-				};
-
-				// down-left
-
-				if (i < row - 1 && j > 0) {	// if it's not the last row or the first column
-					for (int numN = 0;
-							numN
-									< grid.at(
-											HelperFunctions::getIndex(i + 1,
-													j - 1, col)).people.size();
-							numN++) {
-						if (grid.at(
-								HelperFunctions::getIndex(i + 1, j - 1, col)).people.at(
-								numN).healthState == 'i') {	// if the cell just below is infected
-							infectedCounter++;
-						};
-					};
-				};
-
-				//left  i, j - 1, cols
-				if (j > 0) { // if it's not the first column
-					for (int numN = 0;
-							numN
-									< grid.at(
-											HelperFunctions::getIndex(i, j - 1,
-													col)).people.size();
-							numN++) {
-						if (grid.at(HelperFunctions::getIndex(i, j - 1, col)).people.at(
-								numN).healthState == 'i') { // if the cell to the left is infected
-							infectedCounter++;
-						};
-					};
-				};
-
-				//up -left
-				if (j > 0 && i > 0) { // if it's not the first column and not the first row
-					for (int numN = 0;
-							numN
-									< grid.at(
-											HelperFunctions::getIndex(i - 1,
-													j - 1, col)).people.size();
-							numN++) {
-						if (grid.at(
-								HelperFunctions::getIndex(i - 1, j - 1, col)).people.at(
-								numN).healthState == 'i') { // if the cell to the left is infected
-							infectedCounter++;
-						};
-					};
-				};
-
-				//same cell
-				for (int numN = 0;
-						numN
-								< grid.at(
-										HelperFunctions::getIndex(i, j ,
-												col)).people.size(); numN++) {
-					if (grid.at(HelperFunctions::getIndex(i, j, col)).people.at(
-							numN).healthState == 'i') { // if the cell to the left is infected
-						infectedCounter++;
-					};
-				};
 
 				Person newPerson;
 
@@ -404,19 +407,15 @@ void Grid::computeGrid() {
 		}
 	}
 	grid = gridTemp.grid;
-	clock_gettime(CLOCK_MONOTONIC, &stop);
-//execTime = (stop.tv_sec - start.tv_sec)
-//		+  (stop.tv_nsec - start.tv_nsec) * 1e-6;
-	execTime = stop.tv_nsec - start.tv_nsec;
-	cout << endl << "Execution time in nanoseconds: " << execTime //try changing 1e-9 in the line above instead 1000 here -- done
-			<< endl;
-	/*cout << endl << "start time is: " << start << endl;
-	 cout <<endl << "end time is: " << finish << endl;
-	 cout << endl << "compute time is: "<< computeTime << endl << endl;*/
 
-	/*for (int i = 0; i < size; i++) {
-	 grid.grid.at(i) = gridTemp.grid.at(i);
-	 }*/
+	clock_gettime(CLOCK_MONOTONIC, &stop);
+	exec_time = (stop.tv_sec - start.tv_sec);
+	exec_time += (stop.tv_nsec - start.tv_nsec)/ 1000000000.0;
+
+
+	//printf("execution time in seconds : %F \n", exec_time);
+	cout << "Execution time is "<< exec_time << " seconds" << endl;
+
 
 }
 

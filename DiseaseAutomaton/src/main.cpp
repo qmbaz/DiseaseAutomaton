@@ -30,19 +30,19 @@ void testLoading(){//
 }
 
 
-void testCreate(int rows, int cols, int infectionTime, int peopleInACell, string filen, float infecRate){
-	Grid aGrid (rows,cols,infectionTime,peopleInACell,infecRate);
+void testCreate(int ROWS, int COLS, int INFECTION_TIME, int PEOPLE_IN_A_CELL, string filen, float infecRate){
+	Grid aGrid (ROWS,COLS,INFECTION_TIME,PEOPLE_IN_A_CELL,infecRate);
 		aGrid.saveGridToFile(filen+"_initial");
 }
 
 int main() {
 
-	int rows = 5;
-	int cols = 5;
-	int iterations = 40;
-	int infectionTime = 10;
-	int peopleInACell = 5;
-	float contagiousness = 0.02;
+	int ROWS = 30;
+	int COLS = 30;
+	int ITERATIONS = 20;
+	int INFECTION_TIME = 10;
+	int PEOPLE_IN_A_CELL = 10;
+	float CONTAGIOUSNESS = 0.02;
 	int INFECTION_POINT_X_COORDINATE = 3;
 	int INFECTION_POINT_Y_COORDINATE = 3;
 	int INFECTION_POINT_NUMBER_OF_INFECTED = 5;
@@ -52,7 +52,7 @@ int main() {
 	string recoveredPopulationFile = "recoveredPlot.dat";
 	string allPopulationFile = "allPlot.dat";
 
-Grid newGr(rows,cols, infectionTime,peopleInACell, contagiousness);
+Grid newGr(ROWS,COLS, INFECTION_TIME,PEOPLE_IN_A_CELL, CONTAGIOUSNESS);
 newGr.updateStats();
 newGr.printStats();
 newGr.printGridInfected();
@@ -61,7 +61,7 @@ newGr.printGridInfected();
 newGr.updateStats();
 newGr.printStats();
 
-for (int i=0;i< 20;i++){
+for (int i=0;i< ITERATIONS;i++){
 	newGr.computeGrid();
 	newGr.printGridInfected();
 	newGr.updateStats();
@@ -70,12 +70,12 @@ for (int i=0;i< 20;i++){
 
 /*
 	//testLoading();
-	testCreate (rows, cols, infectionTime, peopleInACell,filen, 0.001);
+	testCreate (ROWS, COLS, INFECTION_TIME, PEOPLE_IN_A_CELL,filen, 0.001);
 	Grid tGrid;
 			tGrid.loadGridFromFile(filen);
 	for (unsigned int n=0;n<tGrid.grid.at(0).people.size();n++){
 		tGrid.grid.at(0).people.at(n).healthState='i';
-		tGrid.grid.at(0).people.at(n).timeTillRecovered=infectionTime;
+		tGrid.grid.at(0).people.at(n).timeTillRecovered=INFECTION_TIME;
 	}
 	tGrid.updateStats();
 	tGrid.printStats();
@@ -86,8 +86,8 @@ for (int i=0;i< 20;i++){
 */
 
 	/*
-	 * for (int i=0;i<rows;i++){
-	 AGrid.grid.at(i*(cols+1)).people.at(0).healthState='i';
+	 * for (int i=0;i<ROWS;i++){
+	 AGrid.grid.at(i*(COLS+1)).people.at(0).healthState='i';
 
 	 }*/
 
@@ -95,10 +95,10 @@ for (int i=0;i< 20;i++){
 	///////// creating initial state of the automaton, displaying it to screen and saving to disk
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	/*
-	 Grid TheGrid(rows,cols,infectionTime);
-	 for (int i=0;i<rows;i++){
-	 TheGrid.grid.at(i*(cols+1)).people.at(0).healthState='i';
-	 TheGrid.grid.at(i*(cols+1)).people.at(0).timeTillRecovered= infectionTime;
+	 Grid TheGrid(ROWS,COLS,INFECTION_TIME);
+	 for (int i=0;i<ROWS;i++){
+	 TheGrid.grid.at(i*(COLS+1)).people.at(0).healthState='i';
+	 TheGrid.grid.at(i*(COLS+1)).people.at(0).timeTillRecovered= INFECTION_TIME;
 	 }
 
 	 TheGrid.printGrid();
@@ -119,7 +119,7 @@ for (int i=0;i< 20;i++){
 	//AGrid.printGrid();
 /*
 	///////////////////////////////////////////////////////////////////////////////////////////
-	//////	iterating through "iterations" number of iterations of the cellular automaton
+	//////	iterating through "ITERATIONS" number of ITERATIONS of the cellular automaton
 	/////////////////////////////////////////////////////////////////////////////////////////
 	ofstream infectedPlotFile(infectedPopulationFile.c_str(), ios::out); // creating file object
 	if (!infectedPlotFile) {
@@ -147,7 +147,7 @@ for (int i=0;i< 20;i++){
 	recoveredPlotFile << 0 << " " << AGrid.recovered << endl;
 	allPlotFile << 0 << " " << AGrid.population << endl;
 
-	for (int i = 0; i < iterations; i++) {
+	for (int i = 0; i < ITERATIONS; i++) {
 		cout << "iteration " << i + 1 << endl << endl;
 		AGrid.computeGrid();
 		AGrid.updateStats();
