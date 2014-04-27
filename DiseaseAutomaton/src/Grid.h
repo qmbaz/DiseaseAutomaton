@@ -36,15 +36,23 @@ public:
 	unsigned long infected;
 	unsigned long recovered;
 	unsigned long susceptible;
-	unsigned long peopleInACell;
+	int peopleInACell;
 	void updateStats();
 	void printStats();
 	void resetStats();//
 	void printGrid();
+	void printGridStat(char);
+	void printGridInfected();
+	void printGridSusceptible();
+	void printGridRecovered();
+	void printGridPopulation();
+	void printAllPeopleStates();
+	void infectionPoint (int,int,int);
 	void computeGrid ();
 	void fillPeopleVector();
 	void saveGridToFile (string);
 	void loadGridFromFile (string);
+
 
 
 };

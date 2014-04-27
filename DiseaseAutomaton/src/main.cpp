@@ -17,7 +17,7 @@ using std::ofstream;
 using std::ios;
 using std::string;
 
-void testLoading(){
+void testLoading(){//
 	Grid tGrid;
 		tGrid.loadGridFromFile("multiple.dat");
 		for (int i=0;i<(tGrid.row*tGrid.col);i++){
@@ -28,6 +28,7 @@ void testLoading(){
 
 		}
 }
+
 
 void testCreate(int rows, int cols, int infectionTime, int peopleInACell, string filen){
 	Grid aGrid (rows,cols,infectionTime,peopleInACell);
@@ -47,9 +48,16 @@ int main() {
 	string recoveredPopulationFile = "recoveredPlot.dat";
 	string allPopulationFile = "allPlot.dat";
 
+Grid testInfectedPrint(rows,cols, infectionTime,peopleInACell);
+//testInfectedPrint.printAllPeopleStates();
 
+testInfectedPrint.infectionPoint(2,4,5);
 
-
+testInfectedPrint.printGridInfected();
+testInfectedPrint.printGridRecovered();
+testInfectedPrint.printGridSusceptible();
+testInfectedPrint.printGridPopulation();
+/*
 	//testLoading();
 	testCreate (rows, cols, infectionTime, peopleInACell,filen);
 	Grid tGrid;
@@ -64,7 +72,7 @@ int main() {
 	tGrid.updateStats();
 	tGrid.printStats();
 	tGrid.saveGridToFile("multipleComputed.dat");
-
+*/
 
 	/*
 	 * for (int i=0;i<rows;i++){
@@ -86,7 +94,7 @@ int main() {
 	 TheGrid.saveGridToFile("begin.aut");
 	 //*/
 
-
+/*
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	///////// initializing grid, setting it to a state loaded from file and printing it to screen
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -95,8 +103,10 @@ int main() {
 	AGrid.updateStats();
 
 	cout << "beginning state" << endl;
-	//AGrid.printGrid();
+	*/
 
+	//AGrid.printGrid();
+/*
 	///////////////////////////////////////////////////////////////////////////////////////////
 	//////	iterating through "iterations" number of iterations of the cellular automaton
 	/////////////////////////////////////////////////////////////////////////////////////////
@@ -144,7 +154,7 @@ int main() {
 	//AGrid.printGrid();
 	//AGrid.printStats();
 
-
+*/
 
 	return 0;
 }
