@@ -26,7 +26,7 @@ using std::ifstream;
 class Grid {
 public:
 	Grid();
-	Grid(int, int, int);
+	Grid(int, int, int,int);
 	virtual ~Grid();
 	std::vector <Cell> grid;
 	int row;
@@ -36,6 +36,7 @@ public:
 	unsigned long infected;
 	unsigned long recovered;
 	unsigned long susceptible;
+	unsigned long peopleInACell;
 	void updateStats();
 	void printStats();
 	void resetStats();//

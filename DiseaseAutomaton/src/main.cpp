@@ -17,16 +17,54 @@ using std::ofstream;
 using std::ios;
 using std::string;
 
+void testLoading(){
+	Grid tGrid;
+		tGrid.loadGridFromFile("multiple.dat");
+		for (int i=0;i<(tGrid.row*tGrid.col);i++){
+			cout << "cell no " << i << endl;
+			for (int j=0;j<tGrid.grid.at(i).getNumberOfPeopleInACell();j++){
+				cout << "person no " << j << " state is " << tGrid.grid.at(i).people.at(j).getHealthState() << endl;
+			}
+
+		}
+}
+
+void testCreate(int rows, int cols, int infectionTime, int peopleInACell, string filen){
+	Grid aGrid (rows,cols,infectionTime,peopleInACell);
+		aGrid.saveGridToFile(filen+"_initial");
+}
+
 int main() {
 
-	int rows = 30;
-	int cols = 30;
+	int rows = 5;
+	int cols = 5;
 	int iterations = 40;
 	int infectionTime = 10;
+	int peopleInACell = 5;
+	string filen = "belgium";
 	string infectedPopulationFile = "infectedPlot.dat";
 	string susceptiblePopulationFile = "susceptiblePlot.dat";
 	string recoveredPopulationFile = "recoveredPlot.dat";
 	string allPopulationFile = "allPlot.dat";
+
+
+
+
+	//testLoading();
+	testCreate (rows, cols, infectionTime, peopleInACell,filen);
+	Grid tGrid;
+			tGrid.loadGridFromFile(filen);
+	for (unsigned int n=0;n<tGrid.grid.at(0).people.size();n++){
+		tGrid.grid.at(0).people.at(n).healthState='i';
+		tGrid.grid.at(0).people.at(n).timeTillRecovered=infectionTime;
+	}
+	tGrid.updateStats();
+	tGrid.printStats();
+	tGrid.computeGrid();
+	tGrid.updateStats();
+	tGrid.printStats();
+	tGrid.saveGridToFile("multipleComputed.dat");
+
 
 	/*
 	 * for (int i=0;i<rows;i++){
@@ -48,6 +86,7 @@ int main() {
 	 TheGrid.saveGridToFile("begin.aut");
 	 //*/
 
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	///////// initializing grid, setting it to a state loaded from file and printing it to screen
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,7 +95,7 @@ int main() {
 	AGrid.updateStats();
 
 	cout << "beginning state" << endl;
-	AGrid.printGrid();
+	//AGrid.printGrid();
 
 	///////////////////////////////////////////////////////////////////////////////////////////
 	//////	iterating through "iterations" number of iterations of the cellular automaton
@@ -105,6 +144,9 @@ int main() {
 	//AGrid.printGrid();
 	//AGrid.printStats();
 
+
+
 	return 0;
 }
+
 
