@@ -11,8 +11,10 @@
 #include "Cell.h"
 #include "Grid.h"
 #include <iostream>
+#include <cstdlib>
 #include <iterator>
 #include <vector>
+#include <time.h>
 using std::cout;
 using std::cin;
 using std::ios;
@@ -34,6 +36,8 @@ public:
 	//static Grid loadGridFromFile (string);
 	static int getIndex(int, int, int);
 	static int testAndSetCoordinate(int, int, string, string);
+	static unsigned long timeVal();
+	static bool stochastic(float cntg, int count);
 };
 
 #endif /* HELPERFUNCTIONS_H_ */

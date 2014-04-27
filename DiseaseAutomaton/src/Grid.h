@@ -26,12 +26,13 @@ using std::ifstream;
 class Grid {
 public:
 	Grid();
-	Grid(int, int, int,int);
+	Grid(int, int, int,int,float);
 	virtual ~Grid();
 	std::vector <Cell> grid;
 	int row;
 	int col;
 	int infectionTime;
+	float infectionProbability;
 	unsigned long population;
 	unsigned long infected;
 	unsigned long recovered;

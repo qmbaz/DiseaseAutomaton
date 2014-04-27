@@ -42,3 +42,25 @@ int HelperFunctions::testAndSetCoordinate(int coor, int max, string introText, s
 	}
 	return coor;
 }
+
+unsigned long HelperFunctions::timeVal() {
+	struct timespec time;
+	clock_gettime(CLOCK_MONOTONIC, &time);
+	unsigned long ret = time.tv_nsec;
+	return ret;
+}
+
+bool HelperFunctions::stochastic(float factor, int count) {
+	bool ret;
+	int range = 1000;
+	srand(timeVal());
+	if ((rand() % (range + 1)) < range * factor * count) {
+		ret = true;
+
+	} else {
+		ret = false;
+	}
+
+	return ret;
+}
+

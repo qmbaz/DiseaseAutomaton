@@ -17,10 +17,11 @@ Grid::Grid() {
 	col = 0;
 	infectionTime = 0;
 	peopleInACell = 0;
+	infectionProbability = 0;
 
 }
 
-Grid::Grid(int inputRow, int inputCol, int infTime, int pInACell) {
+Grid::Grid(int inputRow, int inputCol, int infTime, int pInACell, float infecPr) {
 	population = 0;
 	infected = 0;
 	recovered = 0;
@@ -29,6 +30,7 @@ Grid::Grid(int inputRow, int inputCol, int infTime, int pInACell) {
 	col = inputCol;
 	infectionTime = infTime;
 	peopleInACell = pInACell;
+	infectionProbability = infecPr;
 	unsigned long size = row * col;
 	for (unsigned long i = 0; i < size; i++) { // iterating through the grid vector
 		Cell oneCell; // create a cell
@@ -208,7 +210,7 @@ void Grid::computeGrid() {
 	struct timespec start, stop;
 	long int execTime;
 	clock_gettime(CLOCK_MONOTONIC, &start);
-	Grid gridTemp(row, col, infectionTime, 0);
+	Grid gridTemp(row, col, infectionTime, 0, infectionProbability);
 	for (int i = 0; i < row; i++) { // iterate through rows
 		for (int j = 0; j < col; j++) { // iterate through columns
 			Cell oneCell;
@@ -348,6 +350,7 @@ void Grid::saveGridToFile(string file) {
 	outFile << row << endl;
 	outFile << col << endl;
 	outFile << infectionTime << endl;
+	outFile << infectionProbability << endl;
 	outFile << population << endl;
 	outFile << infected << endl;
 	outFile << recovered << endl;
@@ -377,6 +380,7 @@ void Grid::loadGridFromFile(string file) {
 		inFile >> row;
 		inFile >> col;
 		inFile >> infectionTime;
+		inFile >> infectionProbability;
 		int size = row * col;
 		//Grid grid(rows,cols);
 		//inFile >> infectionTime;

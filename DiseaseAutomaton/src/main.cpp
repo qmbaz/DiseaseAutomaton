@@ -30,8 +30,8 @@ void testLoading(){//
 }
 
 
-void testCreate(int rows, int cols, int infectionTime, int peopleInACell, string filen){
-	Grid aGrid (rows,cols,infectionTime,peopleInACell);
+void testCreate(int rows, int cols, int infectionTime, int peopleInACell, string filen, float infecRate){
+	Grid aGrid (rows,cols,infectionTime,peopleInACell,infecRate);
 		aGrid.saveGridToFile(filen+"_initial");
 }
 
@@ -48,7 +48,7 @@ int main() {
 	string recoveredPopulationFile = "recoveredPlot.dat";
 	string allPopulationFile = "allPlot.dat";
 
-Grid testInfectedPrint(rows,cols, infectionTime,peopleInACell);
+Grid testInfectedPrint(rows,cols, infectionTime,peopleInACell, 0.002);
 //testInfectedPrint.printAllPeopleStates();
 
 testInfectedPrint.infectionPoint(3,3,5);
@@ -58,9 +58,16 @@ testInfectedPrint.printGridInfected();
 testInfectedPrint.printGridRecovered();
 testInfectedPrint.printGridSusceptible();
 testInfectedPrint.printGridPopulation();
+string fnam = "withInfRate.aut";
+testInfectedPrint.saveGridToFile(fnam);
+
+Grid newG;
+newG.loadGridFromFile(fnam);
+newG.printAllPeopleStates();
+cout << newG.infectionProbability << endl;
 /*
 	//testLoading();
-	testCreate (rows, cols, infectionTime, peopleInACell,filen);
+	testCreate (rows, cols, infectionTime, peopleInACell,filen, 0.001);
 	Grid tGrid;
 			tGrid.loadGridFromFile(filen);
 	for (unsigned int n=0;n<tGrid.grid.at(0).people.size();n++){
