@@ -5,32 +5,26 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../src/Cell.cpp \
-../src/Cell_test.cpp \
 ../src/Grid.cpp \
 ../src/HelperFunctions.cpp \
 ../src/HelperFunctions_test.cpp \
 ../src/Person.cpp \
-../src/Person_test.cpp \
 ../src/main.cpp 
 
 OBJS += \
 ./src/Cell.o \
-./src/Cell_test.o \
 ./src/Grid.o \
 ./src/HelperFunctions.o \
 ./src/HelperFunctions_test.o \
 ./src/Person.o \
-./src/Person_test.o \
 ./src/main.o 
 
 CPP_DEPS += \
 ./src/Cell.d \
-./src/Cell_test.d \
 ./src/Grid.d \
 ./src/HelperFunctions.d \
 ./src/HelperFunctions_test.d \
 ./src/Person.d \
-./src/Person_test.d \
 ./src/main.d 
 
 
