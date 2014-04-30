@@ -56,7 +56,7 @@ public:
 	void computeGrid ();
 	void fillPeopleVector();
 	void saveGridToFile (string);
-	void loadGridFromFile (string);
+	bool loadGridFromFile (string);
 
 
 

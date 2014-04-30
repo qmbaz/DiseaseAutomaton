@@ -473,7 +473,7 @@ void Grid::saveGridToFile(string file) {
 
 }		 // end of method
 
-void Grid::loadGridFromFile(string file) {
+bool Grid::loadGridFromFile(string file) {
 
 //Grid tempGrid;
 	string line;
@@ -510,9 +510,10 @@ void Grid::loadGridFromFile(string file) {
 			}
 		}
 		inFile.close();
-
+		return true;
 	}		 // end of if file is open
 	else
 		cout << "Unable to open file" << endl << endl;
+	return false;
 
 }
