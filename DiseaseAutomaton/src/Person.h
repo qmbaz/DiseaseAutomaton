@@ -1,8 +1,9 @@
 /*
  * Person.h
  *
- *  Created on: 3 Dec 2013
- *      Author: kuba
+ *  Jakub Suchecki
+ *  B00045505
+ *  year 2014
  */
 
 #ifndef PERSON_H_

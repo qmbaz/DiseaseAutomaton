@@ -1,8 +1,8 @@
 /*
  * Grid.cpp
  *
- *  Created on: 11 Feb 2014
- *      Author: kuba
+ * Jakub Suchecki B00045505
+ * 2014
  */
 
 #include "Grid.h"

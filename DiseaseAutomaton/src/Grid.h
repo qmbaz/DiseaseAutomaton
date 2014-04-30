@@ -1,8 +1,9 @@
 /*
  * Grid.h
  *
- *  Created on: 11 Feb 2014
- *      Author: kuba
+ *  Jakub Suchecki
+ *  B00045505
+ *  year 2014
  */
 
 #ifndef GRID_H_

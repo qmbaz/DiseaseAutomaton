@@ -1,8 +1,8 @@
 /*
  * main.cpp
  *
- *  Created on: 1 Dec 2013
- *      Author: kuba
+ * Jakub Suchecki B00045505
+ * 2014
  */
 //
 #include <iostream>
@@ -17,6 +17,7 @@ using std::ofstream;
 using std::ios;
 using std::string;
 
+/// test method for developing
 void testLoading() { //
 	Grid tGrid;
 	tGrid.loadGridFromFile("multiple.dat");

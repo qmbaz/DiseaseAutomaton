@@ -1,8 +1,9 @@
 /*
  * Cell.h
  *
- *  Created on: 1 Dec 2013
- *      Author: kuba
+ *  Jakub Suchecki
+ *  B00045505
+ *  year 2014
  */
 
 #ifndef CELL_H_

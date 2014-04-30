@@ -1,8 +1,9 @@
 /*
  * HelperFunctions.h
  *
- *  Created on: 17 Dec 2013
- *      Author: kuba
+ *  Jakub Suchecki
+ *  B00045505
+ *  year 2014
  */
 
 #ifndef HELPERFUNCTIONS_H_
